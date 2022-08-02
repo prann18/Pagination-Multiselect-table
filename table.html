@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+
+    <title>Table</title>
+    <style>
+        .container {
+            height: 80vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="text-center">Multiselect Data Table</h1>
+
+    <div class="container-fluid">
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">User Id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <button type="submit" class="btn btn-primary" id="mybtn">Submit</button>
+                </tfoot>
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+        $(document).ready(async function () {
+            let myObject = await fetch("https://jsonplaceholder.typicode.com/todos/");
+            let myText = await myObject.text();
+            var myarr = JSON.parse(myText);
+            tableBody = $("table tbody");
+            for (var i = 0; i < myarr.length; i++) {
+                var str = `<tr><th scope="row"><input type="checkbox" id="${myarr[i].id}"></th><td>${myarr[i].userId}</td><td>${myarr[i].title}</td><td>${myarr[i].completed}</td></tr>`;
+                tableBody.append(str);
+            }
+
+
+            $("#mybtn").on("click", function() {
+                var selected = [];
+                $('input:checked').each(function() {
+                    selected.push($(this).attr('id'));
+                });
+
+                alert(selected);
+            });
+        });
+    </script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
